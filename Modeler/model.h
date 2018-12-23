@@ -142,11 +142,14 @@ public:
 
          setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
          glTranslatef(2.0, 1.0, 3.0);
-         drawBox(GetSliderValue(X_POSITION),3.0f,3.0f);
+         drawBox(3.0f,3.0f,3.0f);
 
          setDiffuseColor(0.0f, 0.5f, 0.0f, 1.0f );
          drawSphere(3.0f);
 
+         setDiffuseColor(0.0f, 0.0f, 0.5f, 1.0f );
+         glTranslatef(GetSliderValue(X_POSITION), 1.0, 3.0);
+         drawBox(3.0f,3.0f,3.0f);
 
 
         //---------------------------------------------------------------------
