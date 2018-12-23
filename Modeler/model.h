@@ -137,15 +137,15 @@ public:
         //---------------------------------------------------------------------
 
 		 // Å`Å`Å`ÉvÉçÉOÉâÉÄÇãLèqÅ`Å`Å`
-         setDiffuseColor(0.5, 0, 0, 1 );
-         drawBox(3,3,3);
+         setDiffuseColor(0.5f, 0.0f, 0.0f, 1.0f );
+         drawBox(3.0f,3.0f,3.0f);
 
-         setDiffuseColor(0.5, 0, 0.5, 1 );
-         glTranslatef(2, 1, 3);
-         drawBox(3,3,3);
+         setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
+         glTranslatef(2.0, 1.0, 3.0);
+         drawBox(GetSliderValue(X_POSITION),3.0f,3.0f);
 
-         setDiffuseColor(0, 0.5, 0, 1 );
-         drawSphere(3);
+         setDiffuseColor(0.0f, 0.5f, 0.0f, 1.0f );
+         drawSphere(3.0f);
 
 
 
