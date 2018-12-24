@@ -10,6 +10,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string.h>
+#include <math.h>
+
 
 using namespace std;
 
@@ -423,4 +425,115 @@ void drawTriangle( double x1, double y1, double z1,
         glVertex3d( x3, y3, z3 );
         glEnd();
     }
+}
+
+
+//ここから追加した分
+
+void drawTorus(double x, double y, double z) {
+
+    const int numc = 32;
+    const int numt = 64;
+
+    int savemode;
+    glGetIntegerv( GL_MATRIX_MODE, &savemode );
+
+    _setupOpenGl();
+    glPushMatrix();
+    glScaled( x, y, z );
+
+    int i, j, k;
+    double s, t, a, b, c, twopi;
+
+    const double diameter = 0.5;
+
+    twopi = 2 * M_PI;
+    for (i = 0; i < numc; i++) {
+        glBegin(GL_QUAD_STRIP);
+        for (j = 0; j <= numt; j++) {
+            for (k = 1; k >= 0; k--) {
+                s = (i + k) % numc + 0.5;
+                t = j % numt;
+                a = (1+diameter*cos(s*twopi/numc))*cos(t*twopi/numt);
+                b = diameter * sin(s * twopi / numc);
+                c = (1+diameter*cos(s*twopi/numc))*sin(t*twopi/numt);
+                glNormal3d(cos(t*twopi/numt)-a, sin(s * twopi / numc)-b, sin(t*twopi/numt)-c);
+                glVertex3f(a, b, c);
+            }
+        }
+        glEnd();
+    }
+    glPopMatrix();
+    glMatrixMode( savemode );
+}
+
+
+
+
+void drawOctahedron(double x, double y, double z) {
+
+    _setupOpenGl();
+
+    /* remember which matrix mode OpenGL was in. */
+    int savemode;
+    glGetIntegerv( GL_MATRIX_MODE, &savemode );
+
+    glMatrixMode( GL_MODELVIEW );
+    glPushMatrix();
+    glScaled( x, y, z );
+
+    glBegin( GL_TRIANGLES );
+
+    Vec3f* top = new Vec3f(0.0f, 1.0f, 0.0f);
+    Vec3f*   a = new Vec3f(-1.0f, 0.0f, -1.0f);
+    Vec3f*   b = new Vec3f(-1.0f, 0.0f,  1.0f);
+    Vec3f*   c = new Vec3f( 1.0f, 0.0f,  1.0f);
+    Vec3f*   d = new Vec3f( 1.0f, 0.0f, -1.0f);
+    Vec3f* bot = new Vec3f(0.0f, -1.0f, 0.0f);
+
+    glNormal3d( -1.0, 1.0, 0.0 );
+    glVertex3fv((float*)top);
+    glVertex3fv((float*)a);
+    glVertex3fv((float*)b);
+
+    glNormal3d( 0.0, 1.0, 1.0 );
+    glVertex3fv((float*)top);
+    glVertex3fv((float*)b);
+    glVertex3fv((float*)c);
+
+    glNormal3d( 1.0, 1.0, 0.0 );
+    glVertex3fv((float*)top);
+    glVertex3fv((float*)c);
+    glVertex3fv((float*)d);
+
+    glNormal3d( 0.0, 1.0, -1.0 );
+    glVertex3fv((float*)top);
+    glVertex3fv((float*)d);
+    glVertex3fv((float*)a);
+
+    glNormal3d( -1.0, -1.0, 0.0 );
+    glVertex3fv((float*)bot);
+    glVertex3fv((float*)a);
+    glVertex3fv((float*)b);
+
+    glNormal3d( 0.0, -1.0, 1.0 );
+    glVertex3fv((float*)bot);
+    glVertex3fv((float*)b);
+    glVertex3fv((float*)c);
+
+    glNormal3d( 1.0, -1.0, 1.0 );
+    glVertex3fv((float*)bot);
+    glVertex3fv((float*)c);
+    glVertex3fv((float*)d);
+
+    glNormal3d( 0.0, -1.0, -1.0 );
+    glVertex3fv((float*)bot);
+    glVertex3fv((float*)d);
+    glVertex3fv((float*)a);
+
+    glEnd();
+
+    /* restore the model matrix stack, and switch back to the matrix mode we were in. */
+    glPopMatrix();
+    glMatrixMode( savemode );
 }

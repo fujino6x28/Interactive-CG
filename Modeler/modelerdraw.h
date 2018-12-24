@@ -92,5 +92,10 @@ void drawTriangle( double x1, double y1, double z1,
 			       double x2, double y2, double z2,
 			       double x3, double y3, double z3 );
 
+//ここから追加した分
+void drawTorus(double x, double y, double z);
+
+void drawOctahedron(double x, double y, double z);
+
 
 #endif

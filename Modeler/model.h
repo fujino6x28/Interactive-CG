@@ -151,6 +151,12 @@ public:
          glTranslatef(GetSliderValue(X_POSITION), 1.0, 3.0);
          drawBox(3.0f,3.0f,3.0f);
 
+         setDiffuseColor(0.0f, 0.5f, 0.0f, 1.0f );
+         drawTorus(3.0f,3.0f,3.0f);
+
+         setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
+         drawOctahedron(6.0f, 6.0f, 6.0f);
+
 
         //---------------------------------------------------------------------
 
