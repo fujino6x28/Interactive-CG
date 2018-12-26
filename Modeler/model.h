@@ -137,25 +137,36 @@ public:
         //---------------------------------------------------------------------
 
 		 // Å`Å`Å`ÉvÉçÉOÉâÉÄÇãLèqÅ`Å`Å`
-         setDiffuseColor(0.5f, 0.0f, 0.0f, 1.0f );
-         drawBox(3.0f,3.0f,3.0f);
 
-         setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
-         glTranslatef(2.0, 1.0, 3.0);
-         drawBox(3.0f,3.0f,3.0f);
+         //setDiffuseColor(0.5f, 0.0f, 0.0f, 1.0f );
+         //drawBox(3.0f,3.0f,3.0f);
 
-         setDiffuseColor(0.0f, 0.5f, 0.0f, 1.0f );
-         drawSphere(3.0f);
+         //setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
+         //glTranslatef(2.0, 1.0, 3.0);
+         //drawBox(3.0f,3.0f,3.0f);
 
-         setDiffuseColor(0.0f, 0.0f, 0.5f, 1.0f );
-         glTranslatef(GetSliderValue(X_POSITION), 1.0, 3.0);
-         drawBox(3.0f,3.0f,3.0f);
+         //setDiffuseColor(0.0f, 0.5f, 0.0f, 1.0f );
+         //drawSphere(3.0f);
 
-         setDiffuseColor(0.0f, 0.5f, 0.0f, 1.0f );
-         drawTorus(3.0f,3.0f,3.0f);
+         //setDiffuseColor(0.0f, 0.0f, 0.5f, 1.0f );
+         //glTranslatef(GetSliderValue(X_POSITION), 1.0, 3.0);
+         //drawBox(3.0f,3.0f,3.0f);
 
-         setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
-         drawOctahedron(6.0f, 6.0f, 6.0f);
+         //setDiffuseColor(0.0f, 0.5f, 0.0f, 1.0f );
+         //drawTorus(3.0f,3.0f,3.0f);
+
+
+
+         //setDiffuseColor(0.5f, 0.0f, 0.0f, 1.0f );
+         //drawRectangle( 1.0f, 3.0f, 2.0f,
+         //               2.0f, 1.0f, 3.0f,
+         //               6.0f,2.0f,7.0f,
+         //               5.0f,3.0f,1.0f );
+
+        setDiffuseColor(0.5f, 0.0f, 0.0f, 1.0f );
+        drawTriangularPrism( 1.0f, 3.0f, 2.0f,
+                             2.0f, 1.0f, 3.0f,
+                             6.0f, 2.0f, 7.0f, 5.0 );
 
 
         //---------------------------------------------------------------------

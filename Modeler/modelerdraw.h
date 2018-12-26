@@ -8,7 +8,6 @@
 #include <FL/gl.h>
 #include <cstdio>
 
-
 enum DrawModeSetting_t
 { NONE=0, NORMAL, WIREFRAME, FLATSHADE, };
 
@@ -95,7 +94,13 @@ void drawTriangle( double x1, double y1, double z1,
 //ここから追加した分
 void drawTorus(double x, double y, double z);
 
-void drawOctahedron(double x, double y, double z);
+void drawRectangle( double x1, double y1, double z1,
+                    double x2, double y2, double z2,
+                    double x3, double y3, double z3,
+                    double x4, double y4, double z4 );
 
+void drawTriangularPrism( double x1, double y1, double z1,
+					      double x2, double y2, double z2,
+					      double x3, double y3, double z3, double h );
 
 #endif

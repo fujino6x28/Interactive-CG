@@ -13,6 +13,8 @@
 #include <math.h>
 
 
+
+
 using namespace std;
 
 // ********************************************************
@@ -430,7 +432,8 @@ void drawTriangle( double x1, double y1, double z1,
 
 //ここから追加した分
 
-void drawTorus(double x, double y, double z) {
+void drawTorus(double x, double y, double z)
+{
 
     const int numc = 32;
     const int numt = 64;
@@ -467,73 +470,72 @@ void drawTorus(double x, double y, double z) {
     glMatrixMode( savemode );
 }
 
+void drawRectangle( double x1, double y1, double z1,
+                    double x2, double y2, double z2,
+                    double x3, double y3, double z3,
+                    double x4, double y4, double z4 )
+{
+	double a, b, c, d, e, f;
+	a = x2-x1;
+	b = y2-y1;
+	c = z2-z1;
+
+	d = x3-x1;
+	e = y3-y1;
+	f = z3-z1;
+
+	glBegin( GL_QUADS );
+	glNormal3d( b*f - c*e, c*d - a*f, a*e - b*d );
+	glVertex3d( x1, y1, z1 );
+	glVertex3d( x2, y2, z2 );
+	glVertex3d( x3, y3, z3 );
+	glVertex3d( x4, y4, z4 );
+	glEnd();
+}
 
 
 
-void drawOctahedron(double x, double y, double z) {
+void drawTriangularPrism( double x1, double y1, double z1,
+                          double x2, double y2, double z2,
+                          double x3, double y3, double z3, double h )
+{
+	double a, b, c, d, e, f,nx, ny, nz;
 
-    _setupOpenGl();
+	/* the normal to the triangle is the cross product of two of its edges. */
+	a = x2-x1;
+	b = y2-y1;
+	c = z2-z1;
 
-    /* remember which matrix mode OpenGL was in. */
-    int savemode;
-    glGetIntegerv( GL_MATRIX_MODE, &savemode );
+	d = x3-x1;
+	e = y3-y1;
+	f = z3-z1;
+	nx = b*f - c*e;
+	ny = c*d - a*f;
+	nz = a*e - b*d;
 
-    glMatrixMode( GL_MODELVIEW );
-    glPushMatrix();
-    glScaled( x, y, z );
+	glBegin( GL_TRIANGLES );
+	glNormal3d(nx, ny, nz);
+	glVertex3d( x1, y1, z1 );
+	glVertex3d( x2, y2, z2 );
+	glVertex3d( x3, y3, z3 );
+	glEnd();
+	glBegin( GL_TRIANGLES );
+	glNormal3d(-nx, -ny, -nz);//逆の平面の法線は逆向き
+	glVertex3d( x1, y1+h, z1 );
+	glVertex3d( x3, y3+h, z3 );
+	glVertex3d( x2, y2+h, z2 );
+	glEnd();
+	drawRectangle( x1 , y1   , z1 ,
+	               x1 , y1+h , z1 ,
+	               x2 , y2+h , z2 ,
+	               x2 , y2   , z2);
+	drawRectangle( x2 , y2   , z2 ,
+	               x2 , y2+h , z2 ,
+	               x3 , y3+h , z3 ,
+	               x3 , y3   , z3);
+	drawRectangle( x3 , y3   , z3 ,
+	               x3 , y3+h , z3 ,
+	               x1 , y1+h , z1 ,
+	               x1 , y1   , z1);
 
-    glBegin( GL_TRIANGLES );
-
-    Vec3f* top = new Vec3f(0.0f, 1.0f, 0.0f);
-    Vec3f*   a = new Vec3f(-1.0f, 0.0f, -1.0f);
-    Vec3f*   b = new Vec3f(-1.0f, 0.0f,  1.0f);
-    Vec3f*   c = new Vec3f( 1.0f, 0.0f,  1.0f);
-    Vec3f*   d = new Vec3f( 1.0f, 0.0f, -1.0f);
-    Vec3f* bot = new Vec3f(0.0f, -1.0f, 0.0f);
-
-    glNormal3d( -1.0, 1.0, 0.0 );
-    glVertex3fv((float*)top);
-    glVertex3fv((float*)a);
-    glVertex3fv((float*)b);
-
-    glNormal3d( 0.0, 1.0, 1.0 );
-    glVertex3fv((float*)top);
-    glVertex3fv((float*)b);
-    glVertex3fv((float*)c);
-
-    glNormal3d( 1.0, 1.0, 0.0 );
-    glVertex3fv((float*)top);
-    glVertex3fv((float*)c);
-    glVertex3fv((float*)d);
-
-    glNormal3d( 0.0, 1.0, -1.0 );
-    glVertex3fv((float*)top);
-    glVertex3fv((float*)d);
-    glVertex3fv((float*)a);
-
-    glNormal3d( -1.0, -1.0, 0.0 );
-    glVertex3fv((float*)bot);
-    glVertex3fv((float*)a);
-    glVertex3fv((float*)b);
-
-    glNormal3d( 0.0, -1.0, 1.0 );
-    glVertex3fv((float*)bot);
-    glVertex3fv((float*)b);
-    glVertex3fv((float*)c);
-
-    glNormal3d( 1.0, -1.0, 1.0 );
-    glVertex3fv((float*)bot);
-    glVertex3fv((float*)c);
-    glVertex3fv((float*)d);
-
-    glNormal3d( 0.0, -1.0, -1.0 );
-    glVertex3fv((float*)bot);
-    glVertex3fv((float*)d);
-    glVertex3fv((float*)a);
-
-    glEnd();
-
-    /* restore the model matrix stack, and switch back to the matrix mode we were in. */
-    glPopMatrix();
-    glMatrixMode( savemode );
 }
