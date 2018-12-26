@@ -54,24 +54,43 @@ Trimesh::doubleCheck()
     return 0;
 }
 
-// Calculates and returns the normal of the triangle too.
+
+
+//これはじぶんで追加した
 bool TrimeshFace::intersectLocal( const ray& r, isect& i ) const
 {
-    // YOUR CODE HERE:
-    // Add triangle intersection code here.
-    // it currently ignores all triangles and just return false.
-    //
-    // Note that you are only intersecting a single triangle, and the vertices
-    // of the triangle are supplied to you by the trimesh class.
-    //
-    // You should retrieve the vertices using code like this:
-    //
-    // const Vec3d& a = parent->vertices[ids[0]];
-    // const Vec3d& b = parent->vertices[ids[1]];
-    // const Vec3d& c = parent->vertices[ids[2]];
+	Vec3d p = r.getPosition();	// Rayの位置ベクトルpを取得
+    Vec3d d = r.getDirection();	// Rayの方向ベクトルdを取得
+    Vec3d& alpha = parent->vertices[ids[0]];	// 三角形の頂点alphaを取得
+    Vec3d& beta = parent->vertices[ids[1]]; 	// 三角形の頂点betaを取得
+    Vec3d& gamma = parent->vertices[ids[2]]; 	// 三角形の頂点gammaを取得
+    Vec3d normal = ((beta-alpha)^(gamma-alpha)); // 平面の法線
+    normal.normalize();                                          // 正規化
+    double t;		// Rayの媒介変数t
 
-    return false;
+  	/* tを求める計算を自分で書こう */
+ 	if(normal*d == 0)   // 0除算をしないために(必要ないかも)
+ 	return false;
 
+ 	t = (normal*alpha - normal*p)/(normal*d);
+
+
+	if (t < RAY_EPSILON)
+		return false; // tがRAY_EPSILONより小さい場合は平面と交差しない
+
+	Vec3d Q = r.at(t);	// 交点の位置ベクトル
+ 	/* 交点が三角形の内部かを判定する部分を自分で書こう */
+	Vec3d A = (beta-alpha)^(Q-alpha);
+	Vec3d B = (gamma-beta)^(Q-beta);
+	Vec3d C = (alpha-gamma)^(Q-gamma);
+	if( !(A*B>0 && B*C >0 &&  C*A > 0))  //内積が負になるのがあればfalse
+   		return false;
+
+	i.obj = this;
+   	i.t = t;
+   	i.N = normal;
+
+   	return true;
 }
 
 
@@ -84,16 +103,16 @@ Trimesh::generateNormals()
     normals.resize( cnt );
     int *numFaces = new int[ cnt ]; // the number of faces assoc. with each vertex
     memset( numFaces, 0, sizeof(int)*cnt );
-    
+
     for( Faces::iterator fi = faces.begin(); fi != faces.end(); ++fi )
     {
         Vec3d a = vertices[(**fi)[0]];
         Vec3d b = vertices[(**fi)[1]];
         Vec3d c = vertices[(**fi)[2]];
-        
+
         Vec3d faceNormal = ((b-a) ^ (c-a));
 		faceNormal.normalize();
-        
+
         for( int i = 0; i < 3; ++i )
         {
             normals[(**fi)[i]] += faceNormal;
@@ -109,4 +128,3 @@ Trimesh::generateNormals()
 
     delete [] numFaces;
 }
-
