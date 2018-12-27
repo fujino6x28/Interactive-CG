@@ -164,13 +164,45 @@ public:
          //               6.0f,2.0f,7.0f,
          //               5.0f,3.0f,1.0f );
 
-        setDiffuseColor(0.5f, 0.0f, 0.0f, 1.0f );
-        drawTriangularPrism( 1.0f, 3.0f, 2.0f,
-                             2.0f, 1.0f, 3.0f,
-                             6.0f, 2.0f, 7.0f, 5.0 );
+        //setDiffuseColor(0.5f, 0.0f, 0.0f, 1.0f );
+        //drawTriangularPrism( 1.0f, 3.0f, 2.0f,
+        //                     2.0f, 1.0f, 3.0f,
+        //                     6.0f, 2.0f, 7.0f, 5.0 );
 
+        //setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
+        //drawBox(GetSliderValue(X_POSITION), 3.0, 4.0);
+
+        glPushMatrix();
+        setDiffuseColor(0.5f, 0.0f, 0.0f, 1.0f );
+        drawBox(4, 0.3, 4);
+        glTranslated(2, 0, 2);
+
+        //ステップ1--------------------------
+        glRotated(30+GetSliderValue(A_POSITION)*15,1,0,0);
         setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
-        drawTextureBox(2.0, 3.0, 4.0);
+        drawBox(0.2, 4, 0.2);
+        glTranslated(0, 4, 0);
+
+        //ステップ2--------------------------
+        glRotated(90+GetSliderValue(B_POSITION)*20,1,0,0);
+        setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
+        drawBox(0.2, 2, 0.2);
+        glTranslated(-0.5, 2, 0);
+
+        //ステップ3--------------------------
+        glPushMatrix();
+        glRotated(-30+GetSliderValue(C_POSITION)*20, 1, 0, 0);
+        setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
+        drawBox(1, 1, 0.2);
+
+        //ステップ4--------------------------
+        glPopMatrix();
+        glRotated(30-GetSliderValue(C_POSITION)*20, 1, 0, 0);
+        setDiffuseColor(0.5f, 0.0f, 0.5f, 1.0f );
+        drawBox(1, 1, 0.2);
+
+        glPopMatrix();
+
 
 
         //---------------------------------------------------------------------

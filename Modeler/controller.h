@@ -19,6 +19,9 @@ enum CONTROLLERS {
 	FRAME_CONTROLS,   // フレームコントローラ（変更しないこと)
     // ～～～列挙子を追加～～～
 	X_POSITION,		//オブジェクトのX座標
+	A_POSITION,
+	B_POSITION,
+	C_POSITION,
 
     NUM_CONTROLS,   // コントローラ数（必ず末尾に追加）
 };
@@ -32,6 +35,9 @@ void SetController( ModelerControl* controls )
 
     // ～～～スライダを追加～～～
 	controls[X_POSITION] = ModelerControl("X-Position",-3.0,3.0,0.1,0.0);
+	controls[A_POSITION] = ModelerControl("A-Position",-3.0,3.0,0.1,0.0);
+	controls[B_POSITION] = ModelerControl("B-Position",-3.0,3.0,0.1,0.0);
+	controls[C_POSITION] = ModelerControl("C-Position",-3.0,3.0,0.1,0.0);
 }
 
 // __CONTROLLER_H__
