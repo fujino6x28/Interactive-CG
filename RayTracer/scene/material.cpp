@@ -27,7 +27,7 @@ Vec3d Material::shade( Scene *scene, const ray& r, const isect& i ) const {
 		// diffuse color
 		Vec3d ldf; // 光源から反射する拡散光の値
 			/* ldfの値を自分で計算しよう */
-			ldf = kd(i)*max(0,　i.N*ld);    //0かi.N*ldの大きい方 を返す
+			ldf = kd(i)*max(0.0,i.N*ld);    //0かi.N*ldの大きい方 を返す
 
 
 		// specular color
@@ -36,7 +36,7 @@ Vec3d Material::shade( Scene *scene, const ray& r, const isect& i ) const {
 			Vec3d R = ld + 2*((i.N*ld)*i.N - ld);
 			Vec3d V = -r.getDirection();
 			double ns = shininess(i);
-			lsp = ks(i)*pow(max(0,R*V), ns);       //pow(a,b)  : aのb乗を返す
+			lsp = ks(i)*pow(max(0.0,R*V), ns);       //pow(a,b)  : aのb乗を返す
 
 
 		lum += prod(atten, prod(lc, ldf+lsp));

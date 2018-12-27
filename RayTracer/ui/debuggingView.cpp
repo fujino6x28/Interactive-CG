@@ -14,7 +14,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Gl_Window.H>
 #include <FL/gl.h>
-#include <GL/glu.h>
+#include <OpenGL/glu.h>
 #include <cstdio>
 
 static const int	kMouseRotationButton			= FL_LEFT_MOUSE;
@@ -104,7 +104,7 @@ DebuggingView::DebuggingView(int x, int y, int w, int h, char *label)
 	  m_useSceneMaterials(true),
 	  m_useSceneTextures(true),
 	  m_dirty(true),
-	  m_showGeometry(true), m_showLights(true), 
+	  m_showGeometry(true), m_showLights(true),
 	  m_showCamera(true), m_showAxes(true),
 	  m_showNormals(true),
 	  m_showVisibilityRays(true), m_showReflectionRays(true),
@@ -125,7 +125,7 @@ int DebuggingView::handle(int event)
 	unsigned eventButton = Fl::event_button();
 	unsigned eventState  = Fl::event_state();
 
-	switch(event)	 
+	switch(event)
 	{
 	case FL_PUSH:
 		{
@@ -166,7 +166,7 @@ int DebuggingView::handle(int event)
 	default:
 		return 0;
 	}
-	
+
 	redraw();
 
 	return 1;
@@ -192,10 +192,10 @@ void DebuggingView::resetCamera()
 
 void checkGLError()
 {
-	GLenum error_flag; 
-	error_flag = glGetError(); 
+	GLenum error_flag;
+	error_flag = glGetError();
 	if(error_flag != GL_NO_ERROR)
-		printf("Error: %1s (%i) in %1s.\n",gluErrorString(error_flag),error_flag,"method name"); 
+		printf("Error: %1s (%i) in %1s.\n",gluErrorString(error_flag),error_flag,"method name");
 }
 
 
@@ -220,15 +220,15 @@ void DebuggingView::draw()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(30.0,-float(w())/float(h()),1.0,100.0);
-				
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
-	
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	m_camera->applyViewingTransform();
 
 	// Need to apply an extra transform so that our camera 'approximately'
-	// lines up with the scene camera, initially, and to correct for our 
+	// lines up with the scene camera, initially, and to correct for our
 	// definition of "up."
 	{
 		Vec3d uAxis = raytracer->getScene().getCamera().getU();
@@ -260,7 +260,7 @@ void DebuggingView::draw()
 
 		glMultMatrixd( rotMat );
 	}
-	
+
 
 	if( m_showAxes )
 		drawAxes();
@@ -358,11 +358,11 @@ void DebuggingView::lightScene()
 	if( m_lightingMode == SCENE_LIGHTING )
 	{
 		std::vector<GLenum>::const_iterator glLightsItr = lights.begin();
-		for (std::vector<Light*>::const_iterator l = raytracer->getScene().beginLights(); 
+		for (std::vector<Light*>::const_iterator l = raytracer->getScene().beginLights();
 			l != raytracer->getScene().endLights(); ++l)
 		{
 			if(glLightsItr == lights.end())
-				std::cerr << "Not displaying all lights in debugging mode; GL can only handle 8." 
+				std::cerr << "Not displaying all lights in debugging mode; GL can only handle 8."
 					<< std::endl;
 
 			(*l)->glDraw( *glLightsItr );
@@ -387,7 +387,7 @@ void DebuggingView::lightScene()
 
 void DebuggingView::drawLights()
 {
-	for (std::vector<Light*>::const_iterator l = raytracer->getScene().beginLights(); 
+	for (std::vector<Light*>::const_iterator l = raytracer->getScene().beginLights();
 		l != raytracer->getScene().endLights(); ++l)
 		(*l)->glDraw();
 }
@@ -414,9 +414,9 @@ void DebuggingView::drawScene()
 	int divisions;
 	switch(m_quality)
 	{
-        case HIGH_QUALITY: 
+        case HIGH_QUALITY:
             divisions = 32; break;
-        case MEDIUM_QUALITY: 
+        case MEDIUM_QUALITY:
             divisions = 20; break;
         case LOW_QUALITY:
             divisions = 12; break;
@@ -433,7 +433,7 @@ void DebuggingView::drawScene()
 		mat[2] = 0.2f;
 		mat[3] = 1.0f;
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat );
-	
+
 		mat[0] = 0.4f;
 		mat[1] = 0.4f;
 		mat[2] = 0.8f;
@@ -447,7 +447,7 @@ void DebuggingView::drawScene()
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat );
 	}
 
-	raytracer->getScene().glDraw(divisions, m_useSceneMaterials, 
+	raytracer->getScene().glDraw(divisions, m_useSceneMaterials,
 		m_useSceneTextures);
 }
 
@@ -456,7 +456,7 @@ void DebuggingView::drawRays()
 {
 	glDisable( GL_LIGHTING );
 	// Now draw all the rays
-	for( std::vector< std::pair<ray, isect> >::const_iterator rayItr = 
+	for( std::vector< std::pair<ray, isect> >::const_iterator rayItr =
 		raytracer->getScene().intersectCache.begin();
 		rayItr != raytracer->getScene().intersectCache.end();
 		++rayItr )
@@ -467,7 +467,7 @@ void DebuggingView::drawRays()
 			if( !m_showVisibilityRays ) continue;
 			glColor4f( 1.0f, 1.0f, 0.0f, 1.0f );
 			break;
-			
+
 		case ray::REFLECTION:
 			if( !m_showReflectionRays ) continue;
 			glColor4f( 1.0f, 1.0f, 0.0f, 1.0f );
@@ -531,9 +531,9 @@ void DebuggingView::drawCamera()
 		m_dirty = false;
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glBindTexture(GL_TEXTURE_2D, texName);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
 					   GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
 					   GL_NEAREST);
 		gluBuild2DMipmaps( GL_TEXTURE_2D, GL_RGB, bufWidth, bufHeight, GL_RGB,
 			GL_UNSIGNED_BYTE, buffer );
@@ -547,25 +547,25 @@ void DebuggingView::drawCamera()
 		glTranslated( (sceneCamera.getEye())[0],
 					(sceneCamera.getEye())[1],
 					(sceneCamera.getEye())[2] );
-		
+
 		glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
 		// Now need to draw the camera.
 		glBegin( GL_LINES );
 			glVertex3d(0,0,0);
-			glVertex3dv( (sceneCamera.getLook() 
-				+ 0.5*sceneCamera.getU() 
+			glVertex3dv( (sceneCamera.getLook()
+				+ 0.5*sceneCamera.getU()
 				+ 0.5*sceneCamera.getV()).getPointer() );
 			glVertex3d(0,0,0);
-			glVertex3dv( (sceneCamera.getLook() 
-				+ 0.5*sceneCamera.getU() 
+			glVertex3dv( (sceneCamera.getLook()
+				+ 0.5*sceneCamera.getU()
 				- 0.5*sceneCamera.getV()).getPointer() );
 			glVertex3d(0,0,0);
-			glVertex3dv( (sceneCamera.getLook() 
-				- 0.5*sceneCamera.getU() 
+			glVertex3dv( (sceneCamera.getLook()
+				- 0.5*sceneCamera.getU()
 				+ 0.5*sceneCamera.getV()).getPointer() );
 			glVertex3d(0,0,0);
-			glVertex3dv( (sceneCamera.getLook() 
-				- 0.5*sceneCamera.getU() 
+			glVertex3dv( (sceneCamera.getLook()
+				- 0.5*sceneCamera.getU()
 				- 0.5*sceneCamera.getV()).getPointer() );
 		glEnd();
 

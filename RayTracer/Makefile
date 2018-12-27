@@ -3,11 +3,11 @@ SRCS := $(wildcard *.cpp) $(wildcard ui/*.cpp) $(wildcard scene/*.cpp) $(wildcar
 OBJS := $(SRCS:%.cpp=%.o)
 DEPS := $(SRCS:%.cpp=%.d)
 
-CC := g++-7
+CC := g++-8
 CCFLAGS := -std=c++17  -Wdeprecated-declarations
-INCLUDEPATH := 
-LIBPATH := 
-LIBS := -lGL -lfltk -lfltk_gl -lfltk_images -lpthread -lGL -lGLU -lX11 -lpng -ljpeg
+INCLUDEPATH := -I /opt/X11/include/
+LIBPATH := -L/opt/X11/lib/
+LIBS := -framework OpenGL -lfltk -lfltk_gl -lfltk_images -lpthread -lX11 -lpng -ljpeg
 
 
 all: $(DEPENDS) $(PROG)

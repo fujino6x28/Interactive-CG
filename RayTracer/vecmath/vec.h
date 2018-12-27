@@ -17,7 +17,7 @@ using std::max;
 #include <windows.h>
 #endif
 
-#include <GL/gl.h>
+#include <OpenGL/gl.h>
 
 //==========[ Forward References ]=========================
 

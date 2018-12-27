@@ -1,8 +1,8 @@
 #pragma warning (disable: 4786)
 
 #include <FL/gl.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
 
 #include "../vecmath/mat.h"
 
@@ -122,13 +122,13 @@ void drawTesselatedSquare(int quality)
 			for( int i=0; i <= quality; i++ )
 			{
 				glNormal3d( 0.0, 0.0, 1.0 );
-				glVertex3d( 
-					double(i)/double(quality), 
+				glVertex3d(
+					double(i)/double(quality),
 					double(j)/double(quality),
 					0.0 );
 				glNormal3d( 0.0, 0.0, 1.0 );
-				glVertex3d( 
-					double(i)/double(quality), 
+				glVertex3d(
+					double(i)/double(quality),
 					double(j+1)/double(quality),
 					0.0 );
 			}
@@ -216,7 +216,7 @@ void Cone::glDrawLocal(int quality, bool actualMaterials, bool actualTextures) c
 		{
 		/* if the r1 end does not come to a point, draw a flat disk to
 			cover it up. */
-    
+
 			gluq = gluNewQuadric();
 			gluQuadricDrawStyle( gluq, GLU_FILL );
 			gluQuadricTexture( gluq, GL_TRUE );
@@ -229,16 +229,16 @@ void Cone::glDrawLocal(int quality, bool actualMaterials, bool actualTextures) c
 		{
 		/* if the r2 end does not come to a point, draw a flat disk to
 			cover it up. */
-    
-			/* save the current matrix mode. */	
+
+			/* save the current matrix mode. */
 			int savemode;
 			glGetIntegerv( GL_MATRIX_MODE, &savemode );
-    
+
 			/* translate the origin to the other end of the cylinder. */
 			glMatrixMode( GL_MODELVIEW );
 			glPushMatrix();
 			glTranslated( 0.0, 0.0, h );
-    
+
 			/* draw a disk centered at the new origin. */
 			gluq = gluNewQuadric();
 			gluQuadricDrawStyle( gluq, GLU_FILL );
@@ -246,7 +246,7 @@ void Cone::glDrawLocal(int quality, bool actualMaterials, bool actualTextures) c
 			gluQuadricOrientation( gluq, GLU_OUTSIDE );
 			gluDisk( gluq, 0.0, r2, divisions, divisions);
 			gluDeleteQuadric( gluq );
-    
+
 			/* restore the matrix stack and mode. */
 			glPopMatrix();
 			glMatrixMode( savemode );
@@ -270,14 +270,14 @@ void Cylinder::glDrawLocal(int quality, bool actualMaterials, bool actualTexture
 		const double h = 1.0;
 
 		GLUquadricObj* gluq;
-    
+
 		/* GLU will again do the work.  draw the sides of the cylinder. */
 		gluq = gluNewQuadric();
 		gluQuadricDrawStyle( gluq, GLU_FILL );
 		gluQuadricTexture( gluq, GL_TRUE );
 		gluCylinder( gluq, r1, r2, h, divisions, divisions);
 		gluDeleteQuadric( gluq );
-    
+
 		if ( capped )
 		{
 			gluq = gluNewQuadric();
@@ -287,15 +287,15 @@ void Cylinder::glDrawLocal(int quality, bool actualMaterials, bool actualTexture
 			gluDisk( gluq, 0.0, r1, divisions, divisions);
 			gluDeleteQuadric( gluq );
 
-			/* save the current matrix mode. */	
+			/* save the current matrix mode. */
 			int savemode;
 			glGetIntegerv( GL_MATRIX_MODE, &savemode );
-        
+
 			/* translate the origin to the other end of the cylinder. */
 			glMatrixMode( GL_MODELVIEW );
 			glPushMatrix();
 			glTranslated( 0.0, 0.0, h );
-        
+
 			/* draw a disk centered at the new origin. */
 			gluq = gluNewQuadric();
 			gluQuadricDrawStyle( gluq, GLU_FILL );
@@ -303,7 +303,7 @@ void Cylinder::glDrawLocal(int quality, bool actualMaterials, bool actualTexture
 			gluQuadricOrientation( gluq, GLU_OUTSIDE );
 			gluDisk( gluq, 0.0, r2, divisions, divisions);
 			gluDeleteQuadric( gluq );
-        
+
 			/* restore the matrix stack and mode. */
 			glPopMatrix();
 			glMatrixMode( savemode );
@@ -444,7 +444,7 @@ void PointLight::glDraw() const
 		glGetFloatv(GL_MODELVIEW_MATRIX , modelview);
 
 		// undo all rotations/scales
-		for( i=0; i<3; i++ ) 
+		for( i=0; i<3; i++ )
 			for( j=0; j<3; j++ ) {
 				if ( i==j )
 					modelview[i*4+j] = 1.0;
@@ -493,7 +493,7 @@ void PointLight::glDraw() const
 
 				glEndList();
 			}
-		
+
 			glCallList(displayList);
 		}
 
@@ -608,7 +608,7 @@ void DirectionalLight::glDraw() const
 
 		glScaled( maxDist, maxDist, maxDist );
 		glTranslated( -1.3, 0.0, 0.0 );
-		
+
 		glScaled( 0.2, 0.2, 0.2 );
 
 		// Now, draw the light.  It will be a group of arrows.
@@ -642,4 +642,3 @@ void DirectionalLight::glDraw() const
 	glPopMatrix();
 
 }
-

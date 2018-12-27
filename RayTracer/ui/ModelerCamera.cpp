@@ -3,7 +3,7 @@
 #endif
 
 #include <FL/gl.h>
-#include <GL/glu.h>
+#include <OpenGL/glu.h>
 
 // We include these files from modeler so that we can
 // display the rendered image in OpenGL -- for debugging
@@ -16,14 +16,14 @@
 
 #ifndef M_PI
 #define M_PI 3.141592653589793238462643383279502f
-#endif 
+#endif
 
 const float kMouseRotationSensitivity		= 1.0f/90.0f;
 const float kMouseTranslationXSensitivity	= 0.03f;
 const float kMouseTranslationYSensitivity	= 0.03f;
 const float kMouseZoomSensitivity			= 0.08f;
 
-void ModelerCamera::calculateViewingTransformParameters() 
+void ModelerCamera::calculateViewingTransformParameters()
 {
 	Mat4f dollyXform;
 	Mat4f azimXform;
@@ -38,7 +38,7 @@ void ModelerCamera::calculateViewingTransformParameters()
 	makeHRotX(elevXform, mElevation);
 	makeDiagonal(twistXform, 1.0f);
 	makeHTrans(originXform, mLookAt);
-	
+
 	mPosition = Vec3f(0,0,0);
 	// grouped for (mat4 * vec3) ops instead of (mat4 * mat4) ops
 	mPosition = originXform * (azimXform * (elevXform * (dollyXform * mPosition)));
@@ -51,7 +51,7 @@ void ModelerCamera::calculateViewingTransformParameters()
 	mDirtyTransform = false;
 }
 
-ModelerCamera::ModelerCamera() 
+ModelerCamera::ModelerCamera()
 {
 	reset();
 }
@@ -96,17 +96,17 @@ void ModelerCamera::dragMouse( int x, int y )
 			transYAxis /= sqrt((transYAxis*transYAxis));
 
 			setLookAt(getLookAt() + transXAxis*xTrack + transYAxis*yTrack);
-			
+
 			break;
 		}
 	case kActionRotate:
 		{
 			float dAzimuth		=   -mouseDelta[0] * kMouseRotationSensitivity;
 			float dElevation	=   mouseDelta[1] * kMouseRotationSensitivity;
-			
+
 			setAzimuth(getAzimuth() + dAzimuth);
 			setElevation(getElevation() + dElevation);
-			
+
 			break;
 		}
 	case kActionZoom:
@@ -139,7 +139,7 @@ void ModelerCamera::applyViewingTransform() {
 				mLookAt[0],   mLookAt[1],   mLookAt[2],
 				mUpVector[0], mUpVector[1], mUpVector[2]);
 
-    // Depending on which class you're in, you may have to 
+    // Depending on which class you're in, you may have to
     // implement this yourself!
 }
 
